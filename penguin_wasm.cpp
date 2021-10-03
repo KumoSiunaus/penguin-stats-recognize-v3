@@ -1,3 +1,5 @@
+﻿#include "penguin_wasm.h"
+
 #include "result.hpp"
 #include <iostream>
 #include <opencv2/core.hpp>
