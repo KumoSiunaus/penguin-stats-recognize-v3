@@ -1,4 +1,6 @@
-﻿#include "penguin_wasm.h"
+﻿#ifdef PENGUIN_DLL_EXPORTS
+#include "penguin.h"
+#endif
 
 #include "result.hpp"
 #include <iostream>

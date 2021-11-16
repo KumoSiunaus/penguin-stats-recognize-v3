@@ -9,5 +9,5 @@
 !json.hpp
 !md5.hpp
 !src/*.json
-!penguin_wasm.h
+!penguin.h
 !port.h
