@@ -11,3 +11,4 @@
 !src/*.json
 !penguin.h
 !port.h
+!CMakeLists.txt
