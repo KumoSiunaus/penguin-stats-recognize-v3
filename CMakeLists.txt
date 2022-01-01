@@ -6,5 +6,6 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 link_directories(${OpenCV_LIBRARY_DIRS})
 
+add_definitions(-DPENGUIN_DLL_EXPORTS)
 add_library(penguin-stats-recognize SHARED penguin_wasm.cpp)
 target_link_libraries(penguin-stats-recognize ${OpenCV_LIBS})
