@@ -37,10 +37,8 @@ extern "C" {
 }
 }
 
-extern "C" {
-    void load_templ(const char* itemId, const uint8_t* buffer, size_t size)
+void _load_templ(const char* itemId, const cv::Mat& templimg)
 {
-    cv::Mat templimg = decode(buffer, size);
     auto& resource = penguin::resource;
     if (!resource.contains<std::map<std::string, cv::Mat>>("item_templs")) {
         resource.add("item_templs", std::map<std::string, cv::Mat>());
@@ -48,10 +46,24 @@ extern "C" {
     auto& item_templs = resource.get<std::map<std::string, cv::Mat>>("item_templs");
     item_templs[itemId] = templimg;
 }
+
+extern "C" {
+    void load_templ(const char* itemId, const uint8_t* buffer, size_t size)
+{
+    cv::Mat templimg = decode(buffer, size);
+    _load_templ(itemId, templimg);
+}
 }
 
 extern "C" {
-    const char* recognize(const uint8_t* buffer, size_t size)
+    void load_templ_with_data(const char* itemId, int rows, int cols, int type, void* data)
+{
+    cv::Mat templimg(rows, cols, type, data);
+    _load_templ(itemId, templimg);
+}
+}
+
+const char* _recognize(const cv::Mat& img)
 {
     int64 start, end;
     static std::string res;
@@ -62,7 +74,6 @@ extern "C" {
 
     start = cv::getTickCount();
 
-    cv::Mat img = decode(buffer, size);
     penguin::Result result { img };
     result.analyze();
 
@@ -75,7 +86,21 @@ extern "C" {
 
     res = report.dump();
 
-    // free(buffer);
     return res.data();
+}
+
+extern "C" {
+    const char* recognize(const uint8_t* buffer, size_t size)
+{
+    cv::Mat img = decode(buffer, size);
+    return _recognize(img);
+}
+}
+
+extern "C" {
+    const char* recognize_with_data(int rows, int cols, int type, void* data)
+{
+    cv::Mat img(rows, cols, type, data);
+    return _recognize(img);
 }
 }
