@@ -59,7 +59,8 @@ extern "C" {
     void load_templ_with_data(const char* itemId, int rows, int cols, int type, void* data)
 {
     cv::Mat templimg(rows, cols, type, data);
-    _load_templ(itemId, templimg);
+    // data may be released by caller, so templimg.clone() is needed
+    _load_templ(itemId, templimg.clone()); 
 }
 }
 
