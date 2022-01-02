@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stddef.h>
 #include "port.h"
 
 typedef unsigned char      uint8_t;
